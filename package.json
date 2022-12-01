@@ -1,0 +1,20 @@
+{
+  "name": "adventofcode2022",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "advent",
+    "of",
+    "code",
+    "tdd"
+  ],
+  "author": "lukdavid",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.9.3"
+  }
+}
