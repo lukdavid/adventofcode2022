@@ -2,19 +2,28 @@
   "name": "adventofcode2022",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest"
   },
   "keywords": [
-    "advent",
-    "of",
-    "code",
-    "tdd"
+    "advent-of-code",
+    "tdd",
+    "puzzle",
+    "practice",
+    "typescript",
+    "fun"
   ],
   "author": "lukdavid",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.2.3",
+    "@types/node": "^18.11.10",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "jest": "^29.3.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.9.3"
   }
 }
