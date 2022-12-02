@@ -1,4 +1,4 @@
-import { PARSED_INPUT } from "./parsedTestInput";
+import { PARSED_INPUT } from "./parse.spec";
 import {
   sumCalories,
   getCaloriesPerElve,
