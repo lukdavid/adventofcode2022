@@ -29,10 +29,20 @@ describe("RockPapperScissors class", () => {
       TEST_MAPPING_1,
       TEST_MAPPING_2
     );
+    expect(rockPaperScissors.getRoundOutput("A", "X")).toBe(RoundOutput.DRAW);
     expect(rockPaperScissors.getRoundOutput("A", "Y")).toBe(
       RoundOutput.VICTORY
     );
+    expect(rockPaperScissors.getRoundOutput("A", "Z")).toBe(RoundOutput.DEFEAT);
     expect(rockPaperScissors.getRoundOutput("B", "X")).toBe(RoundOutput.DEFEAT);
+    expect(rockPaperScissors.getRoundOutput("B", "Y")).toBe(RoundOutput.DRAW);
+    expect(rockPaperScissors.getRoundOutput("B", "Z")).toBe(
+      RoundOutput.VICTORY
+    );
+    expect(rockPaperScissors.getRoundOutput("C", "X")).toBe(
+      RoundOutput.VICTORY
+    );
+    expect(rockPaperScissors.getRoundOutput("C", "Y")).toBe(RoundOutput.DEFEAT);
     expect(rockPaperScissors.getRoundOutput("C", "Z")).toBe(RoundOutput.DRAW);
   });
 
@@ -82,5 +92,38 @@ describe("RockPapperScissors class", () => {
       ["B", "X"],
       ["C", "Z"],
     ]);
+  });
+  it("Should compute the right shape to play for the wanted output given the opponent's shape", () => {
+    const rockPaperScissors = new RockPaperScissors(
+      TEST_MAPPING_1,
+      TEST_MAPPING_2
+    );
+    expect(rockPaperScissors.getShapeForOutput("A", RoundOutput.VICTORY)).toBe(
+      "Y"
+    );
+    expect(rockPaperScissors.getShapeForOutput("B", RoundOutput.VICTORY)).toBe(
+      "Z"
+    );
+    expect(rockPaperScissors.getShapeForOutput("C", RoundOutput.VICTORY)).toBe(
+      "X"
+    );
+    expect(rockPaperScissors.getShapeForOutput("A", RoundOutput.DRAW)).toBe(
+      "X"
+    );
+    expect(rockPaperScissors.getShapeForOutput("B", RoundOutput.DRAW)).toBe(
+      "Y"
+    );
+    expect(rockPaperScissors.getShapeForOutput("C", RoundOutput.DRAW)).toBe(
+      "Z"
+    );
+    expect(rockPaperScissors.getShapeForOutput("A", RoundOutput.DEFEAT)).toBe(
+      "Z"
+    );
+    expect(rockPaperScissors.getShapeForOutput("B", RoundOutput.DEFEAT)).toBe(
+      "X"
+    );
+    expect(rockPaperScissors.getShapeForOutput("C", RoundOutput.DEFEAT)).toBe(
+      "Y"
+    );
   });
 });

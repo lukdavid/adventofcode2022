@@ -32,7 +32,9 @@ class RockPaperScissors {
     if (opponentIndex === myIndex) {
       return RoundOutput.DRAW;
     }
-    return myIndex > opponentIndex ? RoundOutput.VICTORY : RoundOutput.DEFEAT;
+    return myIndex - opponentIndex === 1 || myIndex - opponentIndex === -2
+      ? RoundOutput.VICTORY
+      : RoundOutput.DEFEAT;
   };
 
   getShapeScore = (shape: string, mappingType: MappingType) => {
@@ -56,6 +58,19 @@ class RockPaperScissors {
     this.roundsPlayed.push([opponentShape, myShape]);
     this.score += totalRoundScore;
     return { output, score: totalRoundScore };
+  };
+
+  getShapeForOutput = (opponentShape: string, wantedOutput: RoundOutput) => {
+    const opponentIndex = this.getShapeIndex(opponentShape, "opponent");
+    if (wantedOutput === RoundOutput.DRAW) {
+      return this.mappings.mine[opponentIndex];
+    }
+    if (wantedOutput === RoundOutput.VICTORY) {
+      const victoryIndex = opponentIndex + 1 > 2 ? 0 : opponentIndex + 1;
+      return this.mappings.mine[victoryIndex];
+    }
+    const defeatIndex = opponentIndex - 1 < 0 ? 2 : opponentIndex - 1;
+    return this.mappings.mine[defeatIndex];
   };
 }
 
