@@ -1,18 +1,8 @@
-const opponentMapping = ["A", "B", "C"]; // rock, paper, scissors
-const myMapping = ["X", "Y", "Z"];
-
 import { MappingType, RoundOutput } from "./types";
-export const getShapeIndex = (Shape: string, mapping: string[]) => {
-  const index = mapping.indexOf(Shape);
-  if (index === -1) {
-    throw new Error(`Shape ${Shape} is not in the mapping ${mapping}`);
-  }
-  return index;
-};
 
 class RockPaperScissors {
   mappings: Record<MappingType, string[]>;
-  gamesPlayed: string[][];
+  roundsPlayed: string[][];
   score: number;
 
   constructor(
@@ -25,7 +15,7 @@ class RockPaperScissors {
       opponent: opponentMapping,
     };
     this.score = initialScore;
-    this.gamesPlayed = [];
+    this.roundsPlayed = [];
   }
 
   getShapeIndex = (Shape: string, mappingType: MappingType) => {
@@ -51,10 +41,10 @@ class RockPaperScissors {
 
   getRoundOutputScore = (output: RoundOutput) => {
     if (output === RoundOutput.VICTORY) {
-      return 3;
+      return 6;
     }
     if (output === RoundOutput.DRAW) {
-      return 1;
+      return 3;
     }
     return 0;
   };
@@ -63,7 +53,7 @@ class RockPaperScissors {
     const output = this.getRoundOutput(opponentShape, myShape);
     const totalRoundScore =
       this.getRoundOutputScore(output) + this.getShapeScore(myShape, "mine");
-    this.gamesPlayed.push([opponentShape, myShape]);
+    this.roundsPlayed.push([opponentShape, myShape]);
     this.score += totalRoundScore;
     return { output, score: totalRoundScore };
   };

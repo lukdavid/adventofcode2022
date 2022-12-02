@@ -54,12 +54,12 @@ describe("RockPapperScissors class", () => {
       TEST_MAPPING_1,
       TEST_MAPPING_2
     );
-    expect(rockPaperScissors.getRoundOutputScore(RoundOutput.VICTORY)).toBe(3);
-    expect(rockPaperScissors.getRoundOutputScore(RoundOutput.DRAW)).toBe(1);
+    expect(rockPaperScissors.getRoundOutputScore(RoundOutput.VICTORY)).toBe(6);
+    expect(rockPaperScissors.getRoundOutputScore(RoundOutput.DRAW)).toBe(3);
     expect(rockPaperScissors.getRoundOutputScore(RoundOutput.DEFEAT)).toBe(0);
   });
 
-  it.skip("Should compute the output score of a round", () => {
+  it("Should compute the output score of a round", () => {
     const rockPaperScissors = new RockPaperScissors(
       TEST_MAPPING_1,
       TEST_MAPPING_2
@@ -77,7 +77,7 @@ describe("RockPapperScissors class", () => {
       score: 6,
     });
     expect(rockPaperScissors.score).toBe(15);
-    expect(rockPaperScissors.gamesPlayed).toEqual([
+    expect(rockPaperScissors.roundsPlayed).toEqual([
       ["A", "Y"],
       ["B", "X"],
       ["C", "Z"],

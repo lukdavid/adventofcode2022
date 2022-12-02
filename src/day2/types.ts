@@ -5,3 +5,5 @@ export enum RoundOutput {
 }
 
 export type MappingType = "mine" | "opponent";
+
+export type RoundsList = string[][];
