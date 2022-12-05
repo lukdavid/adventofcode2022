@@ -1,6 +1,5 @@
 import { readFileSync } from "fs";
 import { CrateId, Move } from "./types";
-// const parseStacks =
 
 const parseMoves = (rawMoves: string): Move[] => {
   const lines = rawMoves.split("\n");
@@ -31,7 +30,7 @@ const parseStacks = (rawStacks: string): Record<CrateId, string[]> => {
 };
 
 export const parseInput = (fileName: string) => {
-  const raw = readFileSync(fileName).toString();
+  const raw = readFileSync(fileName).toString().trim();
   const [rawStacks, rawMoves] = raw.split("\n\n");
   return { stacks: parseStacks(rawStacks), moves: parseMoves(rawMoves) };
 };
