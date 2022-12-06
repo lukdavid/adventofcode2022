@@ -30,7 +30,7 @@ const parseStacks = (rawStacks: string): Record<CrateId, string[]> => {
 };
 
 export const parseInput = (fileName: string) => {
-  const raw = readFileSync(fileName).toString().trim();
+  const raw = readFileSync(fileName).toString();
   const [rawStacks, rawMoves] = raw.split("\n\n");
   return { stacks: parseStacks(rawStacks), moves: parseMoves(rawMoves) };
 };
