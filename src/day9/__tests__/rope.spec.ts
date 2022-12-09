@@ -1,5 +1,6 @@
 import Rope from "../rope";
 import { Direction } from "../types";
+import { PARSED_INPUT } from "./parse.spec";
 
 describe("Rope", () => {
   it("Should instanciate a rope", () => {
@@ -40,5 +41,29 @@ describe("Rope", () => {
     const ropeHorizontal = new Rope();
     ropeHorizontal.moveHead(Direction.Right, 2);
     expect(ropeHorizontal.tailPosition).toEqual({ x: 1, y: 0 });
+  });
+
+  it("Tail should catch up with head in diagonal", () => {
+    const ropeDiagonal = new Rope();
+    ropeDiagonal.moveHead(Direction.Right, 3);
+    ropeDiagonal.moveHead(Direction.Up, 2);
+    expect(ropeDiagonal.tailPosition).toEqual({ x: 3, y: 1 });
+  });
+
+  it("Head and Tail should have the right position in test input", () => {
+    const rope = new Rope();
+    for (const move of PARSED_INPUT) {
+      rope.moveHead(move.direction, move.distance);
+    }
+    expect(rope.headPosition).toEqual({ x: 2, y: 2 });
+    expect(rope.tailPosition).toEqual({ x: 1, y: 2 });
+  });
+
+  it("Should compute the number of positions visited at least once by the tail", () => {
+    const rope = new Rope();
+    for (const move of PARSED_INPUT) {
+      rope.moveHead(move.direction, move.distance);
+    }
+    expect(rope.getUniquePositionsVisitedByTail()).toEqual(13);
   });
 });

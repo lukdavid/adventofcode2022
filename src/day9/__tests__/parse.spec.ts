@@ -1,7 +1,7 @@
 import { parseInput } from "../parse";
 import { Direction } from "../types";
 
-const PARSED_INPUT = [
+export const PARSED_INPUT = [
   { direction: Direction.Right, distance: 4 },
   { direction: Direction.Up, distance: 4 },
   { direction: Direction.Left, distance: 3 },

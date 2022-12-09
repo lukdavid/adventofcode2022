@@ -14,17 +14,30 @@ class Rope {
   catchUpTail() {
     const xDifference = this.headPosition.x - this.tailPosition.x;
     const yDifference = this.headPosition.y - this.tailPosition.y;
+    // straight lines
     if (xDifference === 0 && yDifference > 1) {
       this.tailPosition.y += 1;
+      return;
     }
     if (xDifference === 0 && yDifference < -1) {
       this.tailPosition.y -= 1;
+      return;
     }
     if (yDifference === 0 && xDifference > 1) {
       this.tailPosition.x += 1;
+      return;
     }
     if (yDifference === 0 && xDifference < -1) {
       this.tailPosition.x -= 1;
+      return;
+    }
+    // diagonals
+    if (Math.abs(xDifference) >= 1 && Math.abs(yDifference) >= 1) {
+      if (Math.abs(xDifference * yDifference) > 1) {
+        this.tailPosition.x += xDifference > 0 ? 1 : -1;
+        this.tailPosition.y += yDifference > 0 ? 1 : -1;
+        return;
+      }
     }
   }
 
@@ -44,9 +57,16 @@ class Rope {
           this.headPosition.x += 1;
           break;
       }
-      this.tailPositionHistory.push(this.tailPosition);
+      this.tailPositionHistory.push({ ...this.tailPosition });
       this.catchUpTail();
+      // console.log(this.headPosition, this.tailPosition);
     }
+  }
+
+  getUniquePositionsVisitedByTail() {
+    return new Set(
+      this.tailPositionHistory.map((position) => `${position.x},${position.y}`)
+    ).size;
   }
 }
 
