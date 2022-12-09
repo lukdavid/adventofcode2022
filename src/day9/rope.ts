@@ -1,42 +1,44 @@
 import { Direction, Position } from "./types";
 
+const startPosition = { x: 0, y: 0 };
+
 class Rope {
-  headPosition: Position;
-  tailPosition: Position;
+  length: number;
+  nodePositions: Position[];
   tailPositionHistory: Position[];
 
-  constructor() {
-    this.headPosition = { x: 0, y: 0 };
-    this.tailPosition = { x: 0, y: 0 };
-    this.tailPositionHistory = [];
+  constructor(length: number) {
+    if (length < 2) {
+      throw new Error("Rope length must be at least 2");
+    }
+    this.length = length;
+    this.nodePositions = [];
+    for (let i = 0; i < length; i++) {
+      this.nodePositions.push({ ...startPosition }); // must get copies of the object
+    }
+    this.tailPositionHistory = [{ ...startPosition }];
   }
 
   catchUpTail() {
-    const xDifference = this.headPosition.x - this.tailPosition.x;
-    const yDifference = this.headPosition.y - this.tailPosition.y;
-    // straight lines
-    if (xDifference === 0 && yDifference > 1) {
-      this.tailPosition.y += 1;
-      return;
-    }
-    if (xDifference === 0 && yDifference < -1) {
-      this.tailPosition.y -= 1;
-      return;
-    }
-    if (yDifference === 0 && xDifference > 1) {
-      this.tailPosition.x += 1;
-      return;
-    }
-    if (yDifference === 0 && xDifference < -1) {
-      this.tailPosition.x -= 1;
-      return;
-    }
-    // diagonals
-    if (Math.abs(xDifference) >= 1 && Math.abs(yDifference) >= 1) {
-      if (Math.abs(xDifference * yDifference) > 1) {
-        this.tailPosition.x += xDifference > 0 ? 1 : -1;
-        this.tailPosition.y += yDifference > 0 ? 1 : -1;
-        return;
+    for (let i = 1; i < this.length; i++) {
+      const xDifference = this.nodePositions[i - 1].x - this.nodePositions[i].x;
+      const yDifference = this.nodePositions[i - 1].y - this.nodePositions[i].y;
+      // straight lines
+      if (xDifference === 0 && yDifference > 1) {
+        this.nodePositions[i].y += 1;
+      } else if (xDifference === 0 && yDifference < -1) {
+        this.nodePositions[i].y -= 1;
+      } else if (yDifference === 0 && xDifference > 1) {
+        this.nodePositions[i].x += 1;
+      } else if (yDifference === 0 && xDifference < -1) {
+        this.nodePositions[i].x -= 1;
+      }
+      // diagonals
+      else if (Math.abs(xDifference) >= 1 && Math.abs(yDifference) >= 1) {
+        if (Math.abs(xDifference * yDifference) > 1) {
+          this.nodePositions[i].x += xDifference > 0 ? 1 : -1;
+          this.nodePositions[i].y += yDifference > 0 ? 1 : -1;
+        }
       }
     }
   }
@@ -45,21 +47,20 @@ class Rope {
     for (let i = 0; i < distance; i++) {
       switch (direction) {
         case Direction.Up:
-          this.headPosition.y += 1;
+          this.nodePositions[0].y += 1;
           break;
         case Direction.Down:
-          this.headPosition.y -= 1;
+          this.nodePositions[0].y -= 1;
           break;
         case Direction.Left:
-          this.headPosition.x -= 1;
+          this.nodePositions[0].x -= 1;
           break;
         case Direction.Right:
-          this.headPosition.x += 1;
+          this.nodePositions[0].x += 1;
           break;
       }
-      this.tailPositionHistory.push({ ...this.tailPosition });
       this.catchUpTail();
-      // console.log(this.headPosition, this.tailPosition);
+      this.tailPositionHistory.push({ ...this.nodePositions[this.length - 1] });
     }
   }
 
