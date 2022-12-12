@@ -3,7 +3,7 @@ import Monkey, { MonkeyInitialProps } from "../monkey";
 const initialTestMonkeyProps: MonkeyInitialProps = {
   startingItems: [79, 98],
   operation: (n: number) => n * 19,
-  test: (n: number) => n % 3 === 0,
+  divisor: 3,
   passToMonkeyTrue: 2,
   passToMonkeyFalse: 3,
 };
@@ -49,8 +49,22 @@ it("Should inspect an item", () => {
   expect(second.item).toBe(57);
   expect(second.passTo).toBe(2);
   expect(monkey.items).toEqual([]);
+});
 
-  monkey.getItem(46);
+it("Should inspect an item without relief", () => {
+  const monkey = new Monkey({
+    ...initialTestMonkeyProps,
+    startingItems: [79, 9],
+    relief: false,
+  });
+  const first = monkey.inspectItem();
+  expect(first.item).toBe(1501);
+  expect(first.passTo).toBe(3);
+  expect(monkey.items).toEqual([9]);
+  const second = monkey.inspectItem();
+  expect(second.item).toBe(171);
+  expect(second.passTo).toBe(2);
+  expect(monkey.items).toEqual([]);
 });
 
 it("Should increment the counter of inspected items", () => {
