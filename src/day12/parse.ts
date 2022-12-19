@@ -45,7 +45,9 @@ export const getAdjacentNodes = (
   return adjacents;
 };
 
-export const parseStartAndExit = (input: string) => {
+export const parseStartAndExit = (
+  input: string
+): { start: string; exit: string } => {
   const lines = input.split("\n");
   const coords: { start?: string; exit?: string } = {};
   for (let i = 0; i < lines.length; i++) {
@@ -65,5 +67,5 @@ export const parseStartAndExit = (input: string) => {
   if (!coords.exit) {
     throw new Error("No exit found");
   }
-  return coords;
+  return coords as { start: string; exit: string };
 };
