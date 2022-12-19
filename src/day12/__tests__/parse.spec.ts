@@ -3,6 +3,7 @@ import {
   parseNodeElevation,
   getAdjacentNodes,
   parseInputGrid,
+  parseStartAndExit,
 } from "../parse";
 import { readFileSync } from "fs";
 
@@ -54,7 +55,7 @@ describe("Parse input", () => {
     );
   });
 
-  it.todo("Should identify start and exit");
-
-  it.todo("Should parse a graph");
+  it("Should identify start and exit", () => {
+    expect(parseStartAndExit(testInput)).toEqual({ start: "0,0", exit: "2,5" });
+  });
 });

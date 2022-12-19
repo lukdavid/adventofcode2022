@@ -44,3 +44,26 @@ export const getAdjacentNodes = (
 
   return adjacents;
 };
+
+export const parseStartAndExit = (input: string) => {
+  const lines = input.split("\n");
+  const coords: { start?: string; exit?: string } = {};
+  for (let i = 0; i < lines.length; i++) {
+    const js = lines[i].indexOf("S");
+    const je = lines[i].indexOf("E");
+    if (js !== -1) {
+      coords.start = buildNodeId(i, js);
+    }
+    if (je !== -1) {
+      coords.exit = buildNodeId(i, je);
+    }
+  }
+
+  if (!coords.start) {
+    throw new Error("No start found");
+  }
+  if (!coords.exit) {
+    throw new Error("No exit found");
+  }
+  return coords;
+};
