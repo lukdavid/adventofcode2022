@@ -64,6 +64,13 @@ class Graph {
       }
     }
   }
+
+  resetDistances() {
+    for (const id of Object.keys(this.nodes)) {
+      this.nodes[id].distanceToStart = undefined;
+      this.nodes[this.startId].distanceToStart = 0;
+    }
+  }
 }
 
 export default Graph;
