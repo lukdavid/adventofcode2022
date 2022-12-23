@@ -71,3 +71,152 @@ describe("Cave", () => {
     );
   });
 });
+
+describe("Drops sand", () => {
+  it("Drops a sand unit, increments count", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    cave.dropSand();
+    expect(cave.sandsUnitsDropped).toBe(1);
+  });
+
+  it("Sand should go down when no obstacle", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    // initiate sand drop
+    cave.scan[1][cave.dropFromX] = "o";
+    const [newX, newY] = cave.sandDown(cave.dropFromX, 1);
+    expect(newX).toBe(cave.dropFromX);
+    expect(newY).toBe(2);
+    expect(cave.toString()).toEqual(
+      `
+......+...
+..........
+......o...
+..........
+....#...##
+....#...#.
+..###...#.
+........#.
+........#.
+#########.
+`.trim()
+    );
+  });
+
+  it("Sand should go down while no obstacle", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    cave.dropSand();
+    expect(cave.toString()).toEqual(
+      `
+......+...
+..........
+..........
+..........
+....#...##
+....#...#.
+..###...#.
+........#.
+......o.#.
+#########.
+        `.trim()
+    );
+  });
+
+  it("Sand should diagonal left if possible", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    cave.dropSand();
+    cave.dropSand();
+    expect(cave.toString()).toEqual(
+      `
+......+...
+..........
+..........
+..........
+....#...##
+....#...#.
+..###...#.
+........#.
+.....oo.#.
+#########.
+          `.trim()
+    );
+  });
+
+  it("Sand should diagonal right if possible", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    cave.dropSand();
+    cave.dropSand();
+    cave.dropSand();
+    expect(cave.toString()).toEqual(
+      `
+......+...
+..........
+..........
+..........
+....#...##
+....#...#.
+..###...#.
+........#.
+.....ooo#.
+#########.
+          `.trim()
+    );
+  });
+
+  it("Should have good shape after 5 drops", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    cave.dropSand();
+    cave.dropSand();
+    cave.dropSand();
+    cave.dropSand();
+    cave.dropSand();
+    expect(cave.toString()).toEqual(
+      `
+......+...
+..........
+..........
+..........
+....#...##
+....#...#.
+..###...#.
+......o.#.
+....oooo#.
+#########.
+          `.trim()
+    );
+  });
+
+  it("Should have good shape after 22 drops", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    for (let i = 0; i < 22; i++) {
+      cave.dropSand();
+    }
+    expect(cave.toString()).toEqual(
+      `
+......+...
+..........
+......o...
+.....ooo..
+....#ooo##
+....#ooo#.
+..###ooo#.
+....oooo#.
+...ooooo#.
+#########.
+    `.trim()
+    );
+  });
+
+  it.only("Should fill the cave", () => {
+    const cave = new Cave(TEST_PATHS);
+    cave.fillPaths();
+    cave.fill();
+    expect(cave.sandsUnitsDropped).toBe(24);
+  });
+});

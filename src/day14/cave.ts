@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import { getBounds } from "./parse";
 import { Bounds } from "./types";
 
@@ -44,6 +45,62 @@ class Cave {
         }
       }
     });
+  }
+
+  sandDown(x: number, y: number): number[] {
+    if (y === this.scan.length - 1) {
+      this.isInfiniteFlow = true;
+      return [x, Infinity];
+    }
+    if (this.scan[y + 1][x] === ".") {
+      this.scan[y + 1][x] = "o";
+      this.scan[y][x] = ".";
+      return [x, y + 1];
+    }
+    // cant go down : diagonal left
+    if (x === 0) {
+      this.isInfiniteFlow = true;
+      return [x - 1, Infinity];
+    }
+    if (this.scan[y + 1][x - 1] === ".") {
+      this.scan[y + 1][x - 1] = "o";
+      this.scan[y][x] = ".";
+      return [x - 1, y + 1];
+    }
+    // can't go down or diagonal left : diagonal right
+    if (x === this.scan[0].length - 1) {
+      this.isInfiniteFlow = true;
+      return [x + 1, Infinity];
+    }
+    if (this.scan[y + 1][x + 1] === ".") {
+      this.scan[y + 1][x + 1] = "o";
+      this.scan[y][x] = ".";
+      return [x + 1, y + 1];
+    }
+    return [x, y];
+  }
+
+  dropSand() {
+    let x = this.dropFromX;
+    let y = 0;
+    while (!this.isInfiniteFlow) {
+      const [newX, newY] = this.sandDown(x, y);
+      if (newX === x && newY === y) {
+        break;
+      }
+      x = newX;
+      y = newY;
+    }
+    this.scan[0][this.dropFromX] = "+";
+    this.sandsUnitsDropped += 1;
+    // console.log(this.toString(), this.sandsUnitsDropped);
+  }
+
+  fill() {
+    while (!this.isInfiniteFlow) {
+      this.dropSand();
+    }
+    this.sandsUnitsDropped -= 1; // the last unit goes to infinity
   }
 
   toString() {
