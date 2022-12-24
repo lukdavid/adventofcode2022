@@ -89,7 +89,7 @@ describe("Shenanigan", () => {
     const shenanigan = new Shenanigan(monkeys);
     expect(() => {
       for (let i = 0; i < 20; i++) {
-        shenanigan.printMonkeys();
+        // shenanigan.printMonkeys();
         shenanigan.playRound();
       }
     }).not.toThrowError();
@@ -101,7 +101,7 @@ describe("Shenanigan", () => {
     );
     const shenanigan = new Shenanigan(monkeys);
     for (let i = 0; i < 10000; i++) {
-      shenanigan.printMonkeys();
+      // shenanigan.printMonkeys();
       shenanigan.playRound();
       if (i === 0 || i === 19 || i === 9999) {
         console.log(`Round ${i + 1}`);
