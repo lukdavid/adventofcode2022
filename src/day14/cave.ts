@@ -8,11 +8,13 @@ class Cave {
   dropFromX: number;
   scan: string[][];
   isInfiniteFlow: boolean;
+  isFull: boolean;
   sandsUnitsDropped: number;
 
   constructor(paths: number[][][]) {
     this.paths = paths = JSON.parse(JSON.stringify(paths));
     this.isInfiniteFlow = false;
+    this.isFull = false;
     this.sandsUnitsDropped = 0;
     this.bounds = getBounds(paths);
     const { minX, maxX, maxY } = this.bounds;
@@ -77,6 +79,13 @@ class Cave {
       this.scan[y][x] = ".";
       return [x + 1, y + 1];
     }
+    if (x === this.dropFromX && y === 0) {
+      // filling start
+      this.isFull = true;
+      this.scan[y][x] = "o";
+      return [x, y];
+    }
+
     return [x, y];
   }
 
@@ -91,16 +100,20 @@ class Cave {
       x = newX;
       y = newY;
     }
-    this.scan[0][this.dropFromX] = "+";
+    if (this.scan[0][this.dropFromX] === ".") {
+      this.scan[0][this.dropFromX] = "+";
+    }
+
     this.sandsUnitsDropped += 1;
-    // console.log(this.toString(), this.sandsUnitsDropped);
   }
 
   fill() {
-    while (!this.isInfiniteFlow) {
+    while (!this.isInfiniteFlow && !this.isFull) {
       this.dropSand();
     }
-    this.sandsUnitsDropped -= 1; // the last unit goes to infinity
+    if (this.isInfiniteFlow) {
+      this.sandsUnitsDropped -= 1; // the last unit goes to infinity
+    }
   }
 
   toString() {

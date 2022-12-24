@@ -213,10 +213,25 @@ describe("Drops sand", () => {
     );
   });
 
-  it.only("Should fill the cave", () => {
+  it("Should fill the cave", () => {
     const cave = new Cave(TEST_PATHS);
     cave.fillPaths();
     cave.fill();
     expect(cave.sandsUnitsDropped).toBe(24);
+  });
+
+  it("Part 2 : should add the ground at y_max + 2 and find correct number of units to fill", () => {
+    const maxY = 9;
+    const cave = new Cave([
+      ...TEST_PATHS,
+      [
+        [500 - (maxY + 2), maxY + 2],
+        [500 + (maxY + 2), maxY + 2],
+      ],
+    ]);
+    cave.fillPaths();
+    cave.fill();
+    // console.log(cave.toString());
+    expect(cave.sandsUnitsDropped).toBe(93);
   });
 });
